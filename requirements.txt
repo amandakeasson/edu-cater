@@ -1,0 +1,15 @@
+bs4
+gensim
+matplotlib
+nltk
+numpy
+os
+pandas
+pickle
+pyLDAvis
+requests
+seaborn
+selenium
+sklearn
+time
+warnings
