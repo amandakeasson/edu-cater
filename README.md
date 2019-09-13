@@ -16,8 +16,8 @@ Users can make requests for features that they would like to see in the recommen
 
 Run the following code to set up edu-cater:
 
-`cd edu-cater`
-`pip install -r requirements.txt`
+`cd edu-cater`  
+`pip install -r requirements.txt`  
 `python setup.py`
 
 
