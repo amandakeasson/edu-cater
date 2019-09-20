@@ -1,0 +1,62 @@
+/* style sheet for personal website */
+
+/* make sure footer is at the very bottom of the page */
+/* https://stackoverflow.com/questions/643879/css-to-make-html-page-footer-stay-at-bottom-of-the-page-with-a-minimum-height-b*/
+html {height: 100%}
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.toptext {
+  font-family: "Cookie";
+  font-size: 60px;
+  fill: #ffffff;}
+
+.navbar {
+  background-color:#d3f5f8;
+  display: block;
+  width: 600px;
+  margin-right: auto;
+  margin-left: auto;
+  box-shadow: none;
+  border-bottom: 2px solid #1fb9c7;
+  border-bottom-width: auto;}
+
+.topbar {text-decoration: none;}
+.topbar:hover {background-color: #c3e5e8; border-radius: 5px;}
+
+.circular--landscape {
+  display: inline-block;
+  position: relative;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-top: 125px;
+}
+
+
+.bio {margin-left: 64px; margin-right: 64px;}
+.bio a {text-decoration: none; color: #1fb9c7; font-weight: bold;}
+.mycv {padding-bottom: 32px;}
+.pubs {text-align: left; margin-left: 64px; margin-right: 64px;}
+.pubs a {text-decoration: none; color: #1fb9c7; font-weight: bold;}
+
+.linkicon {
+  text-decoration: none;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-top: 10px;
+  font-size: 30px;
+}
+
+.linkicon:hover {color: #d3f5f8;}
+
+.bottom-bar {
+  width: 100%;
+  background-color: #1fb9c7;
+  opacity: 0.5;
+  height: 50px;
+}

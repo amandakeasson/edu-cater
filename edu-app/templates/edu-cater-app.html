@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Vibur" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,500" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='../static/js/jquery.js'></script>
+    <script>
+        submitForms = function(){
+        document.getElementById("user_input1").submit();
+        document.getElementById("user_input2").submit();
+    }
+    </script>
+    <script>
+    function myFunction() {
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName("li");
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+    </script>
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}"/> -->
+    <link href="../static/css/styles2.css" rel="stylesheet">
+    <script>
+    $(document).ready(function(){
+      $("#content").load('../static/courseviz.html');
+    });
+    </script>
+  </head>
+  <body>
+<div class="w3-top" style="background-color:#d3f5f8">
+  <div class="w3-center" "w3-padding-large"> <h1 class="toptext">edu-cater</h1></div>
+  <div class="w3-navbar w3-padding-large w3-card-2 w3-center navbar">
+      <a href="edu-cater-app.html" class=" w3-center w3-bar-item w3-padding-large topbar" style="font-size:24px">Home</a>
+      <a href="edu-cater-app.html" class="w3-center w3-bar-item w3-padding-large topbar" style="font-size:24px">About</a>
+  </div>
+</div>
+  <div><p style="font-size:50px"><br></p></div>
+<div class="w3-padding-large">
+  <div id="content"></div>
+</div>
+
+  <!-- Try Section -->
+ <section class="bg-primary mb-0" id="try">
+   <div class="container w3-padding-large">
+     <h2><b>Choose Topics</b></h2>
+
+           <div class="col-sm m-3 text-center">
+                 <form action="/output" method="GET" id="user_input2">
+                        <h4 class="text-center text-white">Topic you know:</h4>
+                       <!--<input class="form-control" type="text" id="user_input1" name='user_input1' placeholder="select topic">-->
+
+                       <select id="user_input1" name='user_input1'>
+                         <option value="topic1">Topic1</option>
+                         <option value="topic2">Topic2</option>
+                         <option value="topic3">Topic3</option>
+                         <option value="topic4">Topic4</option>
+                         <option value="topic5">Topic5</option>
+                         <option value="topic6">Topic6</option>
+                         <option value="topic7">Topic7</option>
+                         <option value="topic8">Topic8</option>
+                         <option value="topic9">Topic9</option>
+                         <option value="topic10">Topic10</option>
+                         <option value="topic11">Topic11</option>
+                         <option value="topic12">Topic12</option>
+                         <option value="topic13">Topic13</option>
+                         <option value="topic14">Topic14</option>
+                         <option value="topic15">Topic15</option>
+                         <option value="topic16">Topic16</option>
+                         <option value="topic17">Topic17</option>
+                         <option value="topic18">Topic18</option>
+                         <option value="topic19">Topic19</option>
+                         <option value="topic20">Topic20</option>
+                       </select>
+
+                       <br><br>
+                        <h4 class="text-center text-white">Topic you wish to learn:</h4>
+                       <!--<input class="form-control" type="text" id="user_input2" name='user_input2' placeholder="select topic">-->
+                       <select id="user_input2" name='user_input2'>
+                         <option value="topic1">Topic1</option>
+                         <option value="topic2">Topic2</option>
+                         <option value="topic3">Topic3</option>
+                         <option value="topic4">Topic4</option>
+                         <option value="topic5">Topic5</option>
+                         <option value="topic6">Topic6</option>
+                         <option value="topic7">Topic7</option>
+                         <option value="topic8">Topic8</option>
+                         <option value="topic9">Topic9</option>
+                         <option value="topic10">Topic10</option>
+                         <option value="topic11">Topic11</option>
+                         <option value="topic12">Topic12</option>
+                         <option value="topic13">Topic13</option>
+                         <option value="topic14">Topic14</option>
+                         <option value="topic15">Topic15</option>
+                         <option value="topic16">Topic16</option>
+                         <option value="topic17">Topic17</option>
+                         <option value="topic18">Topic18</option>
+                         <option value="topic19">Topic19</option>
+                         <option value="topic20">Topic20</option>
+                       </select>
+                 </form>
+                 <br>
+           </div>
+    <div class="row justify-content-center">
+          <button type="submit" class="btn btn-secondary btn-lg" form="user_input2">Go!</button>
+   </div>
+   <br><br><br>
+
+   <div>
+     <h2><b>Recommended Courses:</b></h2>
+  </div>
+
+   {% if my_form_result=='Empty' %}
+   <div class="row mt-4 justify-content-center">
+         <h4 class="text-danger text-center text-uppercase">You did not type anything!</h4>
+   </div>
+
+   {% elif my_form_result=='NotEmpty' %}
+
+   <div class="row p-1 m-1 justify-content-center">
+         <div class="col-md- w-50 list-group">
+               <ul>
+              {% for rec in my_output %}
+                <li>{{ rec }}</a></li>
+              {% endfor %}
+              </ul>
+         </div>
+   </div>
+   <div id="ldanet" class="w3-center">
+     <img src="{{ url_for('static', filename = myimg) }}">
+   </div>
+
+   {% else %}
+   {% endif %}
+   </div>
+ </section>
+
+
+
+  <div id="recs" class="w3-padding-large">
+    <p style="font-size:16px">
+      <!--[on graph below: show shortest path from familiar course to new course]</p>-->
+  </div>
+  <div id="ldanet" class="w3-center">
+    <!--<img src="{{ url_for('static', filename="coursera_lda_network_output.png")}}"/>-->
+  </div>
+  </body>
+</html>
