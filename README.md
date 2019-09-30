@@ -24,13 +24,13 @@ Run the following code to set up edu-cater:
 
 edu-cater involves the following steps:  
 
-1) Preprocessing  
+#### 1) Preprocessing  
 
 Each course "document" consists of the course title, description, and syllabus. Each document is then preprocessed. Preprocessing steps involve removing stopwords, lemmatizing, and stemming.  
 
 Next, a bag-of-words corpus is generated. A dictionary of unique terms is then defined. Terms appearing in fewer than 10 documents or more than 25% of documents are removed.  
 
-2) Topic modeling  
+#### 2) Topic modeling  
 
 Topic modeling is then performed using Latent Dirichlet Allocation (LDA) in python.  
 
@@ -38,11 +38,11 @@ Topic modeling is then performed using Latent Dirichlet Allocation (LDA) in pyth
 
 Topics were then visualized using pyLDAvis.  
 
-3) Graph theory 
+#### 3) Graph theory 
 
 A network of courses was then created. Each course is represented as a node in the network. Edges, or connections, between courses are defined as the cosine similarity of the topic scores.  The graph is threshold at 0.7 so that a course will not be recommended unless the cosine similarity between the recommended course and the current course is at least 0.7. A more stringent threshold of 0.95 is used to visualize the graph.  
 
-4) Course recommendations  
+#### 4) Course recommendations  
 
 <b>User input</b>: The user inputs a topic that is familiar to them, and a topic they wish to learn. The user can determine these topics by using the interactive `pyLDAvis` plot and by browsing the topic names that were defined for each topic. The user can also rate the importance of course similarity, ratings, popularity, and length (number of hours it takes to complete the course).  
 
