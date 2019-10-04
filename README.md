@@ -26,28 +26,28 @@ edu-cater involves the following steps:
 
 #### 1) Preprocessing  
 
-Each course "document" consists of the course title, description, and syllabus. Each document is then preprocessed. Preprocessing steps involve removing stopwords, lemmatizing, and stemming.  
+Each course "document" consisted of the course title, description, and syllabus. Each document was then preprocessed. Preprocessing steps involved tokenizing, removing stopwords, lemmatizing, and stemming.  
 
-Next, a bag-of-words corpus is generated. A dictionary of unique terms is then defined. Terms appearing in fewer than 10 documents or more than 25% of documents are removed.  
+Next, a bag-of-words corpus was generated, and a dictionary of unique terms was defined. Terms appearing in fewer than 10 documents or more than 25% of documents were removed.  
 
 #### 2) Topic modeling  
 
-Topic modeling is then performed using Latent Dirichlet Allocation (LDA) in python.  
+Topic modeling was then performed using Latent Dirichlet Allocation (LDA) in Python. Twelve topics were defined, and were labelled manually based on the top words that were associated with each topic.   
 
-12 topics were defined.  
+Topics were then visualized using `pyLDAvis` (shown below). The user can hover over a topic, and see the top 30 terms that are associated with that topic. The sizes of the circles reflect the marginal topic distribution.
 
-Topics were then visualized using pyLDAvis.  
+<img src="pyldavis_example.png"></img>  
 
 #### 3) Graph theory
 
-A network of courses was then created. Each course is represented as a node in the network. Edges, or connections, between courses are defined as the cosine similarity of the topic scores.  The graph is threshold at 0.7 so that a course will not be recommended unless the cosine similarity between the recommended course and the current course is at least 0.7. A more stringent threshold of 0.95 is used to visualize the graph.  
+A network of courses was created. Each course is represented as a node in the network. Edges, or connections, between each pair of courses were defined as the cosine similarity of the topic scores for a pair of topics.  The graph was threshold at 0.7 so that a course would not be recommended unless the cosine similarity between the recommended course and the current course is at least 0.7. A more stringent threshold of 0.95 was used to visualize the graph.  
 
 #### 4) Course recommendations  
 
 <b>User input</b>: The user inputs a topic that is familiar to them, and a topic they wish to learn. The user can determine these topics by using the interactive `pyLDAvis` plot and by browsing the topic names that were defined for each topic. The user can also rate the importance of course similarity, ratings, popularity, and length (number of hours it takes to complete the course).  
 
-<b>Behind the scenes</b>: The edges (weights) between courses are adjusted to be a weighted sum of course similarity, ratings, popularity, and length. These variables are first normalized between 0 and 1, and adjusted so that values closer to 1 indicate a higher cost (i.e. lower course similarity, lower ratings, lower popularity, and more hours required to complete the course are more costly). Then, the <b>shortest path</b>, a graph theory metric, is used to show the user the optimal path from the familiar topic to the new topic. The first and last courses in the path are defined by similarity to the familiar and new topics respectively, weighted by the weights that the user defines for course similarity, ratings, popularity, and length.
+<b>Behind the scenes</b>: The edges (weights) between courses are adjusted to be a weighted sum of course similarity, ratings, popularity, and length (based on the weightings defined by the user). These variables are first normalized between 0 and 1, and adjusted so that values closer to 1 indicate a higher cost (i.e. lower course similarity, lower ratings, lower popularity, and more hours required to complete the course are more costly). Then, the <b>shortest path</b>, a graph theory metric, is used to show the user the optimal path from the familiar topic to the new topic. The first and last courses in the path are defined by similarity to the familiar and new topics respectively, weighted by the weights that the user defines for course similarity, ratings, popularity, and length.
 
-<b>Output</b>: The web app returns the "path" or curriculum of courses that has been optimized for the user. This path is also visualized on the course network graph.  
+<b>Output</b>: The web app returns the "path" or curriculum of courses that has been optimized for the user. This path is also visualized on the course network graph (see below).   
 
 <img src="course_net_recs.png"></img>
