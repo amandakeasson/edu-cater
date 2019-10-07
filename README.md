@@ -40,7 +40,14 @@ Topics were then visualized using `pyLDAvis` (shown below). The user can hover o
 
 #### 3) Graph theory
 
-A network of courses was created. Each course is represented as a node in the network. Edges, or connections, between each pair of courses were defined as the cosine similarity of the topic scores for a pair of topics.  The graph was threshold at 0.7 so that a course would not be recommended unless the cosine similarity between the recommended course and the current course is at least 0.7. A more stringent threshold of 0.95 was used to visualize the graph.  
+A network of courses was created. Each course is represented as a node in the network. Edges, or connections, between each pair of courses were defined as the cosine similarity of the topic scores for a pair of topics.  The graph was thresholded such that only the top 7.5% of connections were kept. This graph is shown here:
+
+<img src="coursera_lda_network.png"></img>
+
+A separate graph was created for visualization purposes. This graph was thresholded and binarized to show the top 2.5% of connections. Courses that were connected to fewer than 15 courses were then discarded. The largest connected component of this resulting graph is what is visualized on the edu-cater website.
+
+<img src="coursera_lda_network_thresh.png"></img>
+
 
 #### 4) Course recommendations  
 
