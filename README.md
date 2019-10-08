@@ -36,17 +36,17 @@ Topic modeling was then performed using Latent Dirichlet Allocation (LDA) in Pyt
 
 Topics were then visualized using `pyLDAvis` (shown below). The user can hover over a topic, and see the top 30 terms that are associated with that topic. The sizes of the circles reflect the marginal topic distribution.
 
-<img src="pyldavis_example.png"></img>  
+<img src="notebooks/figures/pyldavis_example.png"></img>  
 
 #### 3) Graph theory
 
 A network of courses was created. Each course is represented as a node in the network. Edges, or connections, between each pair of courses were defined as the cosine similarity of the topic scores for a pair of topics.  The graph was thresholded such that only the top 7.5% of connections were kept. This graph is shown here:
 
-<img src="coursera_lda_network.png"></img>
+<img src="notebooks/figures/coursera_lda_network.png"></img>
 
 A separate graph was created for visualization purposes. This graph was thresholded and binarized to show the top 2.5% of connections. Courses that were connected to fewer than 15 courses were then discarded. The largest connected component of this resulting graph is what is visualized on the edu-cater website.
 
-<img src="coursera_lda_network_thresh.png"></img>
+<img src="notebooks/figures/coursera_lda_network_thresh.png"></img>
 
 
 #### 4) Course recommendations  
@@ -57,4 +57,4 @@ A separate graph was created for visualization purposes. This graph was threshol
 
 <b>Output</b>: The web app returns the "path" or curriculum of courses that has been optimized for the user. This path is also visualized on the course network graph (see below).   
 
-<img src="course_net_recs.png"></img>
+<img src="notebooks/figures/course_net_recs.png"></img>
