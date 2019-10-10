@@ -1,18 +1,61 @@
+import numpy as np
+import pickle
+from scipy.io import loadmat, savemat
+import networkx as nx
+from networkx.algorithms import shortest_path
+import csv
+from sklearn.metrics.pairwise import cosine_similarity as cos_sim
+
 def normalize_cost(x,flip=0):
-    import numpy as np
-    #x = np.array(x)
-    #if np.sum(np.isnan(x))>0:
-    #    x[np.isnan(x)==1]=np.nanmedian(x)
+    """
+    normalize an array to min=0, max=1.
+
+    Parameters
+    ----------
+    x : array
+    vector of values to be normalized
+
+    Returns
+    -------
+    normx : array
+    normalized values to be between 0 and 1
+    """
     if flip==1:
         x = x*(-1)
     normx = (x-np.min(x))/(np.max(x)-np.min(x))
     return normx
 
 def get_output(t1, t2, csim=.5, cstars=.15, cenr=.35, chours=0.0):
+    """
+    determines course path from familiar topic and new topic
 
-    import pickle
-    from scipy.io import loadmat
-    import numpy as np
+    Parameters
+    ----------
+
+    t1 : string
+    familiar topic
+
+    t2 : string
+    new topic
+
+    csim : int or float
+    weight for course similarity
+
+    cstars : int or float
+    weight for course rating
+
+    cenr : int or float
+    weight for course enrollment
+
+    chours : int or float
+    weight for course length
+
+    Returns
+    -------
+
+    titles_new : list
+    a list of recommended courses
+    """
 
     csim = float(csim)
     cstars = float(cstars)
@@ -27,8 +70,10 @@ def get_output(t1, t2, csim=.5, cstars=.15, cenr=.35, chours=0.0):
     chours = chours/ctotal
     print(csim,cstars, cenr, chours)
 
+    # load topic scores per document
     mat = loadmat('scoremat.mat')
     scoremat = mat['scoremat']
+
     # numeric course info
     mat = loadmat('course_numeric_info.mat')
     stars = mat['stars']
@@ -59,27 +104,46 @@ def get_output(t1, t2, csim=.5, cstars=.15, cenr=.35, chours=0.0):
 
     old1 = best_old[0][0]
     new1 = best_new[0][0]
-    print(old1, new1)
 
     shortpath = get_graph_d3(old1, new1, csim, cstars, cenr, chours)
-    print(shortpath)
     titles_new = []
     course_scores = []
     for p in shortpath:
         titles_new.append(titles_all[p])
         course_scores.append(np.argmax(scoremat[p,:]))
-    print(course_scores)
     return titles_new
 
 def get_graph_d3(old1, new1, csim, cstars, cenr, chours):
+    """
+    determines optimal path (shortest path)
 
-    import pickle
-    import networkx as nx
-    from networkx.algorithms import shortest_path
-    import csv
-    from scipy.io import loadmat, savemat
-    from sklearn.metrics.pairwise import cosine_similarity as cos_sim
-    import numpy as np
+    Parameters
+    ----------
+
+    old1 : int
+    index of old topic
+
+    new1 : int
+    index of new topic
+
+    csim : int or float
+    weight for course similarity
+
+    cstars : int or float
+    weight for course rating
+
+    cenr : int or float
+    weight for course enrollment
+
+    chours : int or float
+    weight for course length
+
+    Returns
+    -------
+
+    shortpath : array
+    shortest path in the course graph
+    """
 
     # load Graph
     file = open('networkx_graph.pkl', 'rb')
@@ -136,8 +200,6 @@ def get_graph_d3(old1, new1, csim, cstars, cenr, chours):
         edge_cost = weighted_costs[edge[1]] + csim*dissim
         if sim == 1:
             counter +=1
-        #if edge_cost <= 0.01: # could be really small negative number
-            #edge_cost = 0.01 # need to make really small number so edge isn't eliminated
         G.edges[edge[0], edge[1]]['weighted_cost'] = edge_cost
         G.edges[edge[0], edge[1]]['weight'] = 1 - edge_cost
         list_weighted_costs.append(edge_cost)
@@ -145,10 +207,6 @@ def get_graph_d3(old1, new1, csim, cstars, cenr, chours):
     print(np.min(np.array(list_weighted_costs)))
     print('corr:',scorecorrs[old1, new1])
     edge_weights = [G[u][v]['weight']-.4 for u,v in G.edges()] # min is .5; -.4 so that min is .1
-
-    # new values based on 1 - weighted_cost
-    #weights = dict(G.degree(weight='weight'))
-    #values = [weights.get(node, 0.25) for node in G.nodes()]
 
     # shortest path
     shortpath = shortest_path(G, old1, new1, weight='weighted_cost')
@@ -168,12 +226,6 @@ def get_graph_d3(old1, new1, csim, cstars, cenr, chours):
     with open('static/nodes_output.csv', mode='w') as fp:
         fwriter = csv.writer(fp, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         fwriter.writerow(['x', 'y', 'strength', 'radius','title'])
-        for i in range(len(pos)):
-            if i in shortpath:
-                pass
-            else:
-                # fwriter.writerow([pos[i][0], pos[i][1], int(values[i]), 2, titles[i]])
-                pass
         for i in range(len(pos)):
             if i in shortpath:
                 fwriter.writerow([pos[i][0], pos[i][1], int(values[i]), 4, titles[i]])
