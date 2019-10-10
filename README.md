@@ -1,8 +1,8 @@
 # edu-cater
 
-## catering your education to your needs!
+## Customized course recommendations, catered to your needs!
 
-This repository contains the code for my Insight Data Science project.
+Website: http://edu-cater.info
 
 ### Introduction:
 
