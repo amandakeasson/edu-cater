@@ -18,6 +18,9 @@ class course_scraper():
         self.level_names = list(self.level_dict.keys())
 
     def scrape_urls(self):
+        """
+        A method to scrape Coursera URLs.
+        """
         urls_all = []
         driver = webdriver.Chrome("/mnt/c/Users/easso/docs/neurohackademy/insight_examples/chromedriver.exe")
         for level_name in self.level_names:
@@ -36,20 +39,22 @@ class course_scraper():
                     print("Reached end of", level_name, "course list")
                     break
 
-        with open("edu-cater_urls.txt", "w") as file:
-            for link in urls_all:
-                file.write(link + "\n")
-
-        file = open('edu-cater_urls.pkl', 'wb')
+        file = open('../data/edu-cater_urls.pkl', 'wb')
         pickle.dump(urls_all, file)
         file.close()
 
     def load_urls(self):
-        file = open('edu-cater_urls.pkl', 'rb')
+        """
+        A method to load all URLs after they have been scraped.
+        """
+        file = open('../data/edu-cater_urls.pkl', 'rb')
         self.urls_all = pickle.load(file)
         file.close()
 
     def scrape_courses(self):
+        """
+        A method to scrape course information from each course URL.
+        """
         self.load_urls()
 
         # get course info
@@ -159,12 +164,15 @@ class course_scraper():
                               'reviews': reviews}
 
             # save course_info
-            file = 'course_info/course' + str(i) + '.json'
+            file = '../course_info/course' + str(i) + '.json'
             with open(file, 'w') as fp:
                 json.dump(course_info, fp)
 
 
     def scrape_course_network(self):
+        """
+        A method to scrape a list of recommended courses from a single course page.
+        """
         self.load_urls()
 
         # make course network
@@ -213,6 +221,56 @@ class course_scraper():
                     pass
 
             coursenet = course_network[i,:]
-            savename = 'course_nets/course' + str(i) + '.mat'
+            savename = '../course_nets/course' + str(i) + '.mat'
             savemat(savename,{'coursenet': coursenet})
         self.course_network = course_network
+
+def isEnglish(s):
+    """
+    Return True if all characters in a string are
+    characters used in the English language, else False.
+
+    Parameters
+    ----------
+    s : string
+
+    Output
+    ------
+    y : bool
+    True if all characters are used in the English language
+    False otherwise
+    """
+    try:
+        s.encode(encoding='utf-8').decode('ascii')
+    except UnicodeDecodeError:
+        return False
+    else:
+        return True
+
+def fix_text(txt):
+    """
+    Fixes a string to replace non-English characters.
+
+    Parameters
+    ----------
+    txt : string
+    The string of text to be fixed
+
+    Output
+    ------
+    txt : string
+    The fixed string of text
+    """
+    if not isEnglish(txt):
+        for i, s in enumerate(txt):
+            if not isEnglish(s):
+                if len(txt)>=i+2:
+                    if txt[i+1] == 's':
+                        txt = txt.replace(s,"'")
+                    elif txt[i+1] == ' ' and "'" not in txt:
+                        txt = txt.replace(s,'-')
+                    else:
+                        txt = txt.replace(s,'')
+                else:
+                    txt = txt.replace(s,'')
+    return txt
