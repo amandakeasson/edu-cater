@@ -6,16 +6,16 @@ Website: http://edu-cater.info
 
 ### Introduction:
 
-edu-cater is a tool for custom course recommendations on Coursera. Course recommendations are often based on courses with highly similar content, but students may wish to select courses that are *somewhat* related to a skillset that they already possess, while also learning a new set of skills. This is where edu-cater comes in.
+edu-cater is a tool for custom course recommendations on Coursera. When a course is viewed on Coursera, the user receives recommendations for other courses that tend to be highly similar in content. This current system is not well-catered to users who are looking to learn new skills, as it is unclear how they can transition smoothly from their area of expertise to a new topic they wish to learn.
 
-It uses topic modeling and graph theory to provide customized curricula of courses to users. The details of the process are described below.
+This is where edu-cater comes in. It uses topic modeling and graph theory to provide customized curricula of courses to users. The details of the process are described below.
 
 ### Setup and installation:
 
 Run the following code to set up edu-cater:
 
-`cd edu-cater`
-`pip install -r requirements.txt`
+`cd edu-cater`  
+`pip install -r requirements.txt`  
 `python setup.py`
 
 ### How does edu-cater work?
