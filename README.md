@@ -17,6 +17,8 @@ After cloning this repository, run the following code to set up edu-cater:
 `cd edu-cater`  
 `pip install -r requirements.txt`  
 
+The Jupyter notebook entitled 'edu-cater.ipynb' can then be used to perform the analyses.
+
 ### How does edu-cater work?
 
 edu-cater involves the following steps:
