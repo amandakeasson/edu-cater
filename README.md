@@ -12,11 +12,10 @@ This is where edu-cater comes in. It uses topic modeling and graph theory to pro
 
 ### Setup and installation:
 
-Run the following code to set up edu-cater:
+After cloning this repository, run the following code to set up edu-cater:
 
 `cd edu-cater`  
 `pip install -r requirements.txt`  
-`python setup.py`
 
 ### How does edu-cater work?
 
