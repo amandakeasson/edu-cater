@@ -35,8 +35,8 @@ var LDAvis = function(to_select, data_or_file_name) {
             old: 1,
             current: 1
         },
-        color1 = "#1f77b4", // baseline color for default topic circles and overall term frequencies
-        color2 = "#d62728"; // 'highlight' color for selected topics and term-topic frequencies
+        color1 = "#00aadd", // 1f77b4, baseline color for default topic circles and overall term frequencies
+        color2 = "#0077aa"; // 'highlight' color for selected topics and term-topic frequencies
 
     // Set the duration of each half of the transition:
     var duration = 750;
@@ -63,7 +63,7 @@ var LDAvis = function(to_select, data_or_file_name) {
     var word_prop = 0.25;
 
     // opacity of topic circles:
-    var base_opacity = 0.2,
+    var base_opacity = 0.3,
         highlight_opacity = 0.6;
 
     // topic/lambda selection names are specific to *this* vis
@@ -349,7 +349,7 @@ var LDAvis = function(to_select, data_or_file_name) {
             .attr('class', "circleGuideTitle")
             .style("text-anchor", "left")
             .style("fontWeight", "bold")
-            .text("Marginal topic distribtion");
+            .text("Marginal topic distribution");
         d3.select("#" + leftPanelID).append("text")
             .attr("x", cx2 + 10)
             .attr("y", mdsheight + 2 * newSmall)
@@ -381,12 +381,12 @@ var LDAvis = function(to_select, data_or_file_name) {
                 return (xScale(+d.x));
             })
             .attr("y", function(d) {
-                return (yScale(+d.y) + 4);
+                return (yScale(+d.y) + 5);
             })
             .attr("stroke", "black")
             .attr("opacity", 1)
             .style("text-anchor", "middle")
-            .style("font-size", "11px")
+            .style("font-size", "15px")
             .style("fontWeight", 100)
             .text(function(d) {
                 return d.topics;
@@ -604,12 +604,12 @@ var LDAvis = function(to_select, data_or_file_name) {
 
             // topic input container:
             var topicDiv = document.createElement("div");
-            topicDiv.setAttribute("style", "padding: 5px; background-color: #ffffff; display: inline-block; width: " + mdswidth + "px; height: 50px; float: left");
+            topicDiv.setAttribute("style", "padding: 12px; border:2px solid #00aadd; display: inline-block; width: " + mdswidth + "px; height: 60px; float: center");
             inputDiv.appendChild(topicDiv);
 
             var topicLabel = document.createElement("label");
             topicLabel.setAttribute("for", topicID);
-            topicLabel.setAttribute("style", "font-family: sans-serif; font-size: 14px");
+            topicLabel.setAttribute("style", "font-family: Quicksand; font-size: 14px");
             topicLabel.innerHTML = "Selected Topic: <span id='" + topicID + "-value'></span>";
             topicDiv.appendChild(topicLabel);
 
@@ -646,17 +646,18 @@ var LDAvis = function(to_select, data_or_file_name) {
             var lambdaDivWidth = barwidth;
             var lambdaDiv = document.createElement("div");
             lambdaDiv.setAttribute("id", lambdaInputID);
-            lambdaDiv.setAttribute("style", "padding: 5px; background-color: #ffffff; border-color: #ff0000; display: inline-block; height: 50px; width: " + lambdaDivWidth + "px; float: right; margin-right: 30px");
+            lambdaDiv.setAttribute("style", "padding: 5px; border:2px solid #00aadd; display: inline-block; height: 60px; width: " + lambdaDivWidth + "px; float: right; margin-right: 30px");
             inputDiv.appendChild(lambdaDiv);
 
             var lambdaZero = document.createElement("div");
-            lambdaZero.setAttribute("style", "padding: 5px; height: 20px; width: 220px; font-family: sans-serif; float: left");
+            lambdaZero.setAttribute("style", "padding: 5px; height: 20px; width: 220px; font-family: Quicksand; float: left");
             lambdaZero.setAttribute("id", lambdaZeroID);
             lambdaDiv.appendChild(lambdaZero);
             var xx = d3.select("#" + lambdaZeroID)
                     .append("text")
                     .attr("x", 0)
                     .attr("y", 0)
+                    .style("font-family", "Quicksand")
                     .style("font-size", "14px")
                     .text("Slide to adjust relevance metric:");
             var yy = d3.select("#" + lambdaZeroID)
@@ -664,6 +665,7 @@ var LDAvis = function(to_select, data_or_file_name) {
                     .attr("x", 125)
                     .attr("y", -5)
                     .style("font-size", "10px")
+                    .style("font-family", "Quicksand")
                     .style("position", "absolute")
                     .text("(2)");
 
@@ -686,7 +688,7 @@ var LDAvis = function(to_select, data_or_file_name) {
             var lambdaLabel = document.createElement("label");
             lambdaLabel.setAttribute("id", lambdaLabelID);
             lambdaLabel.setAttribute("for", lambdaID);
-            lambdaLabel.setAttribute("style", "height: 20px; width: 60px; font-family: sans-serif; font-size: 14px; margin-left: 80px");
+            lambdaLabel.setAttribute("style", "height: 20px; width: 60px; font-family: Quicksand; font-size: 14px; margin-left: 80px");
             lambdaLabel.innerHTML = "&#955 = <span id='" + lambdaID + "-value'>" + vis_state.lambda + "</span>";
             lambdaDiv.appendChild(lambdaLabel);
 
@@ -1279,7 +1281,7 @@ var LDAvis = function(to_select, data_or_file_name) {
             // Change sizes of topic numbers:
             d3.selectAll(to_select + " .txt")
                 .transition()
-                .style("font-size", "11px");
+                .style("font-size", "15px");
 
             // Go back to the default guide
             d3.select(to_select + " .circleGuideTitle")

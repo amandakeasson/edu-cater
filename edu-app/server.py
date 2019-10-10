@@ -32,4 +32,4 @@ def tag_output():
 							  my_input2 = '',
                               my_form_result="Empty")
    else:
-	   return render_template("edu-cater-app.html", my_input1=some_input1, my_input2=some_input2, my_output=get_output(some_input1, some_input2, csim, cstars, cenr, chours)[1], myscript="js/coursenet_recs.js", my_form_result="NotEmpty")
+	   return render_template("edu-cater-app.html", scroll="recs", my_input1=some_input1, my_input2=some_input2, my_output=get_output(some_input1, some_input2, csim, cstars, cenr, chours), myscript="js/coursenet_recs.js", my_form_result="NotEmpty")

@@ -1,8 +1,8 @@
 def normalize_cost(x,flip=0):
     import numpy as np
-    x = np.array(x)
-    if np.sum(np.isnan(x))>0:
-        x[np.isnan(x)==1]=np.nanmedian(x)
+    #x = np.array(x)
+    #if np.sum(np.isnan(x))>0:
+    #    x[np.isnan(x)==1]=np.nanmedian(x)
     if flip==1:
         x = x*(-1)
     normx = (x-np.min(x))/(np.max(x)-np.min(x))
@@ -42,24 +42,6 @@ def get_output(t1, t2, csim=.5, cstars=.15, cenr=.35, chours=0.0):
     old_topic = int(t1.split('topic')[1])-1
     new_topic = int(t2.split('topic')[1])-1
 
-    rec_old = np.where(scoremat[:,old_topic]==np.max(scoremat[:,old_topic]))[0][0]
-    rec_new = np.where(scoremat[:,new_topic]==np.max(scoremat[:,new_topic]))[0][0]
-
-    recs_old = np.argsort(-scoremat[:,old_topic])
-    recs_new = np.argsort(-scoremat[:,new_topic])
-
-    recs_old = recs_old[0:5]
-    recs_new = recs_new[0:5]
-
-    titles_old = []
-    titles_new = []
-    for i in range(5):
-        titles_old.append(titles_all[recs_old[i]])
-        titles_new.append(titles_all[recs_new[i]])
-
-    old1 = recs_old[0]
-    new1 = recs_new[0]
-
     # new method: weighted recs
 
     scores_old = scoremat[:,old_topic]
@@ -77,13 +59,17 @@ def get_output(t1, t2, csim=.5, cstars=.15, cenr=.35, chours=0.0):
 
     old1 = best_old[0][0]
     new1 = best_new[0][0]
+    print(old1, new1)
 
     shortpath = get_graph_d3(old1, new1, csim, cstars, cenr, chours)
     print(shortpath)
     titles_new = []
+    course_scores = []
     for p in shortpath:
         titles_new.append(titles_all[p])
-    return titles_old, titles_new
+        course_scores.append(np.argmax(scoremat[p,:]))
+    print(course_scores)
+    return titles_new
 
 def get_graph_d3(old1, new1, csim, cstars, cenr, chours):
 
@@ -119,6 +105,9 @@ def get_graph_d3(old1, new1, csim, cstars, cenr, chours):
     mat = loadmat('scoremat.mat')
     scoremat = mat['scoremat']
     scorecorrs = cos_sim(scoremat)
+    for d in range(len(scorecorrs)):
+        scorecorrs[d,d] = 0
+    print('corr test 1:', scorecorrs[old1,new1])
 
     # numeric course info
     mat = loadmat('course_numeric_info.mat')
@@ -138,74 +127,75 @@ def get_graph_d3(old1, new1, csim, cstars, cenr, chours):
     if np.shape(weighted_costs)[0] == 1:
         weighted_costs = weighted_costs.T
 
-    # original graph G is binary: 1 if cos_sim =.5; 0 if <=.5
     list_weighted_costs = []
     list_weights = []
+    counter = 0
     for edge in G.edges:
         sim = scorecorrs[edge[0], edge[1]]
         dissim = 1-sim
         edge_cost = weighted_costs[edge[1]] + csim*dissim
+        if sim == 1:
+            counter +=1
+        #if edge_cost <= 0.01: # could be really small negative number
+            #edge_cost = 0.01 # need to make really small number so edge isn't eliminated
         G.edges[edge[0], edge[1]]['weighted_cost'] = edge_cost
         G.edges[edge[0], edge[1]]['weight'] = 1 - edge_cost
         list_weighted_costs.append(edge_cost)
-        list_weighted_costs.append(1-edge_cost)
-
-    edgelist = list(G.edges)
-    thresh_weights = np.percentile(list_weighted_costs,95)
-    for edge in edgelist:
-        if G.edges[edge[0], edge[1]]['weighted_cost'] > thresh_weights:
-            G.remove_edge(edge[0], edge[1])
-
+        list_weights.append(1-edge_cost)
+    print(np.min(np.array(list_weighted_costs)))
+    print('corr:',scorecorrs[old1, new1])
     edge_weights = [G[u][v]['weight']-.4 for u,v in G.edges()] # min is .5; -.4 so that min is .1
 
     # new values based on 1 - weighted_cost
-    weights = dict(G.degree(weight='weights'))
-    values = [weights.get(node, 0.25) for node in G.nodes()]
+    #weights = dict(G.degree(weight='weight'))
+    #values = [weights.get(node, 0.25) for node in G.nodes()]
 
     # shortest path
     shortpath = shortest_path(G, old1, new1, weight='weighted_cost')
     mytuples = []
+    mytuples_directed = []
     for i in range(len(shortpath)-1):
         if shortpath[i] < shortpath[i+1]:
             newlink = (shortpath[i], shortpath[i+1])
         else:
             newlink = (shortpath[i+1], shortpath[i])
         mytuples.append(newlink)
+        newlink = (shortpath[i], shortpath[i+1])
+        mytuples_directed.append(newlink)
 
-    # write nodes.csv
-    with open('static/nodes_tmp.csv', mode='w') as fp:
+    # write nodes_output.csv
+    # write nodes not in shortpath first so large nodes are drawn on top
+    with open('static/nodes_output.csv', mode='w') as fp:
         fwriter = csv.writer(fp, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         fwriter.writerow(['x', 'y', 'strength', 'radius','title'])
         for i in range(len(pos)):
-            fwriter.writerow([pos[i][0], pos[i][1], int(values[i]), 2, titles[i]])
-
-    # write edges.csv
-    with open('static/edges_tmp.csv', mode='w') as fp:
-        fwriter = csv.writer(fp, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        fwriter.writerow(['x1', 'x2', 'y1', 'y2', 'width', 'color'])
-        for i in range(len(list_edges)):
-            x1 = pos[list_edges[i][0]][0]
-            x2 = pos[list_edges[i][1]][0]
-            y1 = pos[list_edges[i][0]][1]
-            y2 = pos[list_edges[i][1]][1]
-            if list_edges[i] in mytuples:
-                fwriter.writerow([x1, x2, y1, y2, 2, '#ff0000'])
+            if i in shortpath:
+                pass
+            else:
+                # fwriter.writerow([pos[i][0], pos[i][1], int(values[i]), 2, titles[i]])
+                pass
+        for i in range(len(pos)):
+            if i in shortpath:
+                fwriter.writerow([pos[i][0], pos[i][1], int(values[i]), 4, titles[i]])
             else:
                 pass
-                # fwriter.writerow([x1, x2, y1, y2, .2, '#000000'])
 
-    # write edges.csv
-    with open('static/edges_tmp_all.csv', mode='w') as fp:
+    # write edges_output.csv
+    with open('static/edges_output.csv', mode='w') as fp:
         fwriter = csv.writer(fp, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         fwriter.writerow(['x1', 'x2', 'y1', 'y2', 'width', 'color'])
         for i in range(len(list_edges)):
-            x1 = pos[list_edges[i][0]][0]
-            x2 = pos[list_edges[i][1]][0]
-            y1 = pos[list_edges[i][0]][1]
-            y2 = pos[list_edges[i][1]][1]
             if list_edges[i] in mytuples:
-                fwriter.writerow([x1, x2, y1, y2, 1, '#000000'])
-                pass
-                # fwriter.writerow([x1, x2, y1, y2, .2, '#000000'])
+                if list_edges[i] in mytuples_directed:
+                    x1 = pos[list_edges[i][0]][0]
+                    x2 = pos[list_edges[i][1]][0]
+                    y1 = pos[list_edges[i][0]][1]
+                    y2 = pos[list_edges[i][1]][1]
+                else:
+                    x1 = pos[list_edges[i][1]][0]
+                    x2 = pos[list_edges[i][0]][0]
+                    y1 = pos[list_edges[i][1]][1]
+                    y2 = pos[list_edges[i][0]][1]
+                fwriter.writerow([x1, x2, y1, y2, 2, '#ff0000'])
 
     return shortpath

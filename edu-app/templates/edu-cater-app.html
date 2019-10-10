@@ -80,59 +80,87 @@ body, h1, h2, h3, h4 {
     <a href="#"><b>edu-cater</b></a>
     <div class="topnav-right">
       <a href="#about">About</a>
-      <a href="#search">Search</a>
+      <a href="#topics">Topics</a>
     </div>
   </div>
 
-<div class="intro">
-  <div class="container w3-center">
-    <h1 style="font-family: Cookie; font-size: 100px">edu-cater</h1>
-    <p  style="font-size: 30px">catering your education to your needs</p>
+<div class="intro" style="text-align: center">
+  <div class="container" style="display: inline-block" >
+    <h1 style="font-family: Cookie; font-size: 100px; ">edu-cater</h1>
+    <p  style="font-size: 30px">customized course curricula, catered to your needs</p>
   </div>
 </div>
 
 <div id="about" class="ldaplot">
-  <p><h1>Topic Modeling</h1></p>
+  <p><h1><b>About edu-cater</b></h1></p>
+  <p style = "font-size: 20px">
+    edu-cater is an application that uses topic modeling (Latent Dirichlet Allocation) and graph theory
+    to provide customized curriculums of courses to users to ease their transition to new skills sets
+    of interest. More information about the project can be found
+    <a href="http://github.com/amandakeasson/edu-cater">here</a>.
+  <br><br>
+  To use educater, explore the topics below. Using the dropdown menus, select a topic that you are familiar with, and a new topic that you wish
+  to learn. You can also rate the importance of course similarity, course ratings, course popularity (based on enrollment) and course length
+  (where higher weights correspond to shorter course lengths).
+  <br><br>
+  The "Course Network" provides a thresholded visual representation of the graph that is used for the course curriculum recommendations.
+  Each node represents a course, and each edge (connection) represents the similarity between two courses in terms of how they relate to the different topics.
+  In the graph that is used for recommendations, the edges are thresholded such that only the top 7.5% of connections are kept.
+  For the visualization provided on this page, the graph was thresholded and binarized to show the top 2.5% of connections.
+  Courses that were connected to fewer than 15 courses were then discarded.
+  The largest connected component of this resulting graph is what is visualized below.
+  <br><br>
+</p>
+</div>
+
+
+<div id="topics" class="ldaplot">
+  <p><h1><b>Explore Topics</b></h1></p>
+  <p style = "font-size: 20px">Hover over a topic to see the words that are most associated with that topic.</p>
   <div id="content"></div>
 </div>
 
   <!-- Try Section -->
    <div id="try" class="try">
-     <h2><b>Choose Topics</b></h2>
+     <h1><b>Choose Topics</b></h1>
 
        <!--<div class="col-sm m-3 text-center">-->
              <form action="/output" method="GET" id="user_input2">
                     <h4>Topic you know:</h4>
                    <select id="user_input1" name='user_input1'>
-                     <option value="topic1">Topic 1: Sales and Marketing</option>
-                     <option value="topic2">Topic 2: Algorithms</option>
-                     <option value="topic3">Topic 3: Language Arts</option>
-                     <option value="topic4">Topic 4: Social Sciences</option>
-                     <option value="topic5">Topic 5: Finance</option>
+                     <option value="topic1">Topic 1: Computer Programming</option>
+                     <option value="topic2">Topic 2: Web Services and Communication</option>
+                     <option value="topic3">Topic 3: Finance</option>
+                     <option value="topic4">Topic 4: Sales and Marketing</option>
+                     <option value="topic5">Topic 5: Business Leadership</option>
                      <option value="topic6">Topic 6: Healthcare and Global Health</option>
-                     <option value="topic7">Topic 7: Web Services and Communication</option>
-                     <option value="topic8">Topic 8: Performing Arts and Sports</option>
-                     <option value="topic9">Topic 9: Computer Programming</option>
-                     <option value="topic10">Topic 10: Cybersecurity and Technology</option>
-                     <option value="topic11">Topic 11: Ecnomonics and Society</option>
-                     <option value="topic12">Topic 12: Business Leadership</option>
+                     <option value="topic7">Topic 7: Data Science</option>
+                     <option value="topic8">Topic 8: Creative Arts and Sports</option>
+                     <option value="topic9">Topic 9: Social Sciences</option>
+                     <option value="topic10">Topic 10: Big Data</option>
+                     <option value="topic11">Topic 11: Professional Development</option>
+                     <option value="topic12">Topic 12: Law, Policy and Ethics</option>
+                     <option value="topic13">Topic 13: Life Sciences</option>
+                     <option value="topic14">Topic 14: Physical Sciences</option>
                    </select>
 
                    <br><br>
                     <h4>Topic you wish to learn:</h4>
                   <select id="user_input2" name='user_input2'>
-                    <option value="topic1">Topic 1: Sales and Marketing</option>
-                    <option value="topic2">Topic 2: Algorithms</option>
-                    <option value="topic3">Topic 3: Language Arts</option>
-                    <option value="topic4">Topic 4: Social Sciences</option>
-                    <option value="topic5">Topic 5: Finance</option>
+                    <option value="topic1">Topic 1: Computer Programming</option>
+                    <option value="topic2">Topic 2: Web Services and Communication</option>
+                    <option value="topic3">Topic 3: Finance</option>
+                    <option value="topic4">Topic 4: Sales and Marketing</option>
+                    <option value="topic5">Topic 5: Business Leadership</option>
                     <option value="topic6">Topic 6: Healthcare and Global Health</option>
-                    <option value="topic7">Topic 7: Web Services and Communication</option>
-                    <option value="topic8">Topic 8: Performing Arts and Sports</option>
-                    <option value="topic9">Topic 9: Computer Programming</option>
-                    <option value="topic10">Topic 10: Cybersecurity and Technology</option>
-                    <option value="topic11">Topic 11: Ecnomonics and Society</option>
-                    <option value="topic12">Topic 12: Business Leadership</option>
+                    <option value="topic7">Topic 7: Data Science</option>
+                    <option value="topic8">Topic 8: Creative Arts and Sports</option>
+                    <option value="topic9">Topic 9: Social Sciences</option>
+                    <option value="topic10">Topic 10: Big Data</option>
+                    <option value="topic11">Topic 11: Professional Development</option>
+                    <option value="topic12">Topic 12: Law, Policy and Ethics</option>
+                    <option value="topic13">Topic 13: Life Sciences</option>
+                    <option value="topic14">Topic 14: Physical Sciences</option>
                    </select>
                    <br><br>
 
@@ -183,6 +211,7 @@ body, h1, h2, h3, h4 {
    </div>
    <br><br><br>
 
+
    {% if my_form_result=='Empty' %}
    <div class="row mt-4 justify-content-center">
          <h4 class="text-danger text-center text-uppercase">You did not type anything!</h4>
@@ -190,19 +219,28 @@ body, h1, h2, h3, h4 {
 
    {% elif my_form_result=='NotEmpty' %}
 
-   <div>
-     <h2><b>Recommended Courses:</b></h2>
+   <div id="recs">
+     {% if scroll %}
+      <script>
+          document.getElementById('{{ scroll }}').scrollIntoView();
+          // or
+          document.location.hash = '#' + '{{ scroll }}';
+      </script>
+    {% endif %}
+     <h1><b>Recommended Courses:</b></h1>
   </div>
 
    <div class="row p-1 m-1 justify-content-center">
          <div class="col-md- w-50 list-group">
-               <ul>
+               <ul style = "font-size: 20px">
               {% for rec in my_output %}
                 <li>{{ rec }}</a></li>
               {% endfor %}
               </ul>
+              <br><br><br>
          </div>
    </div>
+
    <div id="recs-svg" class="w3-padding-large w3-center"></div>
 
    {% else %}
@@ -211,6 +249,7 @@ body, h1, h2, h3, h4 {
 
   <div id="main-svg" class="w3-padding-large w3-center"></div>
 
+
   </body>
 
   <script type="text/javascript" src="../static/js/coursenet.js"></script>
@@ -218,5 +257,6 @@ body, h1, h2, h3, h4 {
   {% if my_form_result=='NotEmpty' %}
    <script type="text/javascript" src="../static/js/coursenet_recs.js"></script>
    {% endif %}
+
 
 </html>
