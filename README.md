@@ -1,6 +1,6 @@
 # edu-cater
 
-## Customized course recommendations, catered to your needs!
+## Customized course curricula, catered to your needs!
 
 Website: http://edu-cater.info
 
