@@ -6,6 +6,10 @@ import numpy as np
 import json
 from bs4 import BeautifulSoup
 from scipy.io import loadmat, savemat
+from sklearn.decomposition import LatentDirichletAllocation
+from gensim.matutils import jensen_shannon
+from nltk.stem import WordNetLemmatizer, SnowballStemmer
+import gensim
 
 class course_scraper():
 
@@ -274,3 +278,80 @@ def fix_text(txt):
                 else:
                     txt = txt.replace(s,'')
     return txt
+
+
+def get_jensen_shannon(components, ntopics):
+    topic_dists = components
+    js_dists = []
+    for i in range(ntopics):
+        for j in range(ntopics):
+            if i>j:
+                js_dists.append(jensen_shannon(topic_dists[i,:], topic_dists[j,:]))
+
+    return np.min(js_dists), np.mean(js_dists)
+
+def get_jaccard(components, ntopics):
+    topn = int(np.ceil(len(dictionary)*(10/100)))
+    topic_word_probs = components
+    top_terms = np.argsort(-1*topic_word_probs,axis=1)
+    top_terms = 1*top_terms[:,0:topn]
+    jdists = []
+    for i in range(ntopics):
+        for j in range(ntopics):
+            if i > j:
+                jdists.append(jaccard(top_terms[i,:], top_terms[j,:]))
+    return np.min(jdists), np.mean(jdists)
+
+class LDAwithCustomScore(LatentDirichletAllocation):
+    def score(self, X, y=None):
+        components = self.components_
+        ntopics = self.n_components
+        score = get_jensen_shannon(components, ntopics)[0]
+        return score
+
+def get_educater_stopwords():
+    stopwords = list(gensim.parsing.preprocessing.STOPWORDS)
+    stopwords.extend(['week', 'write', 'solv', 'peer', 'assign', 'beginn',
+                      'need', 'peopl', 'content', 'teach', 'assess', 'plan', 'capston',
+                      'video', 'lesson', 'think', 'idea', 'lectur', 'learner',
+                     'quiz', 'test', 'submit', 'way', 'good', 'choos', 'begin', 'examin', 'colleg', 'academ', 'university', 'mooc',
+                     'teacher', 'educ', 'classroom', 'want', 'materi', 'instruct', 'level', 'section'])
+
+    return stopwords
+
+def lemmatize_stemming(text):
+    stemmer = SnowballStemmer("english")
+    return stemmer.stem(WordNetLemmatizer().lemmatize(text, pos='v'))
+
+# Tokenize and lemmatize
+def preprocess(text, stopwords):
+    result=[]
+    stem_dict = []
+
+    for token in gensim.utils.simple_preprocess(text) :
+        if token not in stopwords and lemmatize_stemming(token) not in stopwords and len(token) > 3:
+            result.append(lemmatize_stemming(token))
+            stem_dict.append((lemmatize_stemming(token), token))
+
+    return result, stem_dict
+
+def get_course_skills_scores(course_info_all, skills_all, stopwords, countvec, lda_model, ind):
+
+    unseen_document = course_info_all[ind]
+    preprocessed = preprocess(unseen_document, stopwords)[0]
+    preprocessed = ' '.join(list(preprocessed))
+    textlist = []
+    textlist.append(preprocessed)
+    X = countvec.transform(textlist).todense()
+    course_topic_scores = lda_model.transform(X)
+
+    unseen_document = skills_all[ind]
+    unseen_document = ' '.join(unseen_document)
+    preprocessed = preprocess(unseen_document, stopwords)[0]
+    preprocessed = ' '.join(list(preprocessed))
+    textlist = []
+    textlist.append(preprocessed)
+    X = countvec.transform(textlist).todense()
+    skills_topic_scores = lda_model.transform(X)
+
+    return course_topic_scores[0], skills_topic_scores[0]
