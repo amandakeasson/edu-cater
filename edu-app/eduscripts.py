@@ -1,5 +1,5 @@
 import numpy as np
-import pickle
+import pickle, copy
 from scipy.io import loadmat, savemat
 import networkx as nx
 from networkx.algorithms import shortest_path
@@ -102,8 +102,11 @@ def get_output(t1, t2, csim=.5, cstars=.15, cenr=.35, chours=0.0):
     best_old = np.argsort(-rank_old); best_old = best_old.T
     best_new = np.argsort(-rank_new); best_new = best_new.T
 
-    old1 = best_old[0][0]
-    new1 = best_new[0][0]
+    ind_old = np.random.permutation(10)[0]
+    ind_new = np.random.permutation(10)[0]
+
+    old1 = best_old[ind_old][0]
+    new1 = best_new[ind_new][0]
 
     shortpath = get_graph_d3(old1, new1, csim, cstars, cenr, chours)
     titles_new = []
@@ -179,7 +182,8 @@ def get_graph_d3(old1, new1, csim, cstars, cenr, chours):
     hours = mat['hours']
     enrollment = mat['enrollment']
 
-    list_edges = list(G.edges)
+    Gdir = nx.DiGraph(G)
+    list_edges = list(Gdir.edges)
 
     # add weighted costs to edges
 
@@ -193,25 +197,27 @@ def get_graph_d3(old1, new1, csim, cstars, cenr, chours):
 
     list_weighted_costs = []
     list_weights = []
-    for edge in G.edges:
+    for edge in Gdir.edges:
         sim = scorecorrs[edge[0], edge[1]]
         dissim = 1-sim
         edge_cost = weighted_costs[edge[1]] + csim*dissim
         if edge_cost < 0:
             print(edge)
-        G.edges[edge[0], edge[1]]['weighted_cost'] = edge_cost
-        G.edges[edge[0], edge[1]]['weight'] = 1 - edge_cost
+        Gdir.edges[edge[0], edge[1]]['weighted_cost'] = edge_cost
+        Gdir.edges[edge[0], edge[1]]['weight'] = 1 - edge_cost
         list_weighted_costs.append(edge_cost)
         list_weights.append(1-edge_cost)
     print(np.min(np.array(list_weighted_costs)))
     print('corr:',scorecorrs[old1, new1])
-    edge_weights = [G[u][v]['weight']-.4 for u,v in G.edges()] # min is .5; -.4 so that min is .1
+    #edge_weights = [Gdir[u][v]['weight']-.4 for u,v in G.edges()] # min is .5; -.4 so that min is .1
 
     # shortest path
-    shortpath = shortest_path(G, old1, new1, weight='weighted_cost')
+    shortpath = shortest_path(Gdir, old1, new1, weight='weighted_cost')
+    print(shortpath)
     mytuples = []
     mytuples_directed = []
     for i in range(len(shortpath)-1):
+        newlink = (shortpath[i], shortpath[i+1])
         if shortpath[i] < shortpath[i+1]:
             newlink = (shortpath[i], shortpath[i+1])
         else:
