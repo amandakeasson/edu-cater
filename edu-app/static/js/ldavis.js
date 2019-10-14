@@ -437,7 +437,7 @@ var LDAvis = function(to_select, data_or_file_name) {
             });
 
         svg.append("text")
-            .text("Intertopic Distance Map (via multidimensional scaling)")
+            .text("Intertopic Distance Map (via t-SNE)")
             .attr("x", mdswidth/2 + margin.left)
             .attr("y", 30)
             .style("font-size", "16px")

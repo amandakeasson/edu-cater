@@ -311,7 +311,8 @@ class LDAwithCustomScore(LatentDirichletAllocation):
 
 def get_educater_stopwords():
     stopwords = list(gensim.parsing.preprocessing.STOPWORDS)
-    stopwords.extend(['week', 'write', 'solv', 'peer', 'assign', 'beginn',
+    stopwords.extend(['research', 'game', 'visual', 'youv', 'english', 'languag', 'chines', 'syntax',
+                     'youll', 'week', 'write', 'solv', 'peer', 'assign', 'beginn',
                       'need', 'peopl', 'content', 'teach', 'assess', 'plan', 'capston',
                       'video', 'lesson', 'think', 'idea', 'lectur', 'learner',
                      'quiz', 'test', 'submit', 'way', 'good', 'choos', 'begin', 'examin', 'colleg', 'academ', 'university', 'mooc',

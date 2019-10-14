@@ -193,13 +193,12 @@ def get_graph_d3(old1, new1, csim, cstars, cenr, chours):
 
     list_weighted_costs = []
     list_weights = []
-    counter = 0
     for edge in G.edges:
         sim = scorecorrs[edge[0], edge[1]]
         dissim = 1-sim
         edge_cost = weighted_costs[edge[1]] + csim*dissim
-        if sim == 1:
-            counter +=1
+        if edge_cost < 0:
+            print(edge)
         G.edges[edge[0], edge[1]]['weighted_cost'] = edge_cost
         G.edges[edge[0], edge[1]]['weight'] = 1 - edge_cost
         list_weighted_costs.append(edge_cost)

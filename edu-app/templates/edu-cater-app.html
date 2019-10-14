@@ -107,7 +107,7 @@ body, h1, h2, h3, h4 {
   Each node represents a course, and each edge (connection) represents the similarity between two courses in terms of how they relate to the different topics.
   In the graph that is used for recommendations, the edges are thresholded such that only the top 7.5% of connections are kept.
   For the visualization provided on this page, the graph was thresholded and binarized to show the top 2.5% of connections.
-  Courses that were connected to fewer than 15 courses were then discarded.
+  Courses with a node strength less than 5 were then discarded.
   The largest connected component of this resulting graph is what is visualized below.
   <br><br>
 </p>
@@ -128,50 +128,46 @@ body, h1, h2, h3, h4 {
              <form action="/output" method="GET" id="user_input2">
                     <h4>Topic you know:</h4>
                    <select id="user_input1" name='user_input1'>
-                     <option value="topic1">Topic 1: Computer Programming</option>
-                     <option value="topic2">Topic 2: Web Services and Communication</option>
+                     <option value="topic1">Topic 1: Data Science</option>
+                     <option value="topic2">Topic 2: Software Design and User Experience</option>
                      <option value="topic3">Topic 3: Finance</option>
-                     <option value="topic4">Topic 4: Sales and Marketing</option>
-                     <option value="topic5">Topic 5: Business Leadership</option>
-                     <option value="topic6">Topic 6: Healthcare and Global Health</option>
-                     <option value="topic7">Topic 7: Data Science</option>
-                     <option value="topic8">Topic 8: Creative Arts and Sports</option>
-                     <option value="topic9">Topic 9: Social Sciences</option>
-                     <option value="topic10">Topic 10: Big Data</option>
-                     <option value="topic11">Topic 11: Professional Development</option>
-                     <option value="topic12">Topic 12: Law, Policy and Ethics</option>
-                     <option value="topic13">Topic 13: Life Sciences</option>
-                     <option value="topic14">Topic 14: Physical Sciences</option>
+                     <option value="topic4">Topic 4: Cloud Computing and Security</option>
+                     <option value="topic5">Topic 5: Medical Sciences</option>
+                     <option value="topic6">Topic 6: Healthcare and Public Health</option>
+                     <option value="topic7">Topic 7: Economics</option>
+                     <option value="topic8">Topic 8: Social Sciences</option>
+                     <option value="topic9">Topic 9: Business: Marketing and Innovation</option>
+                     <option value="topic10">Topic 10: Management, Leadership and Communication</option>
+                     <option value="topic11">Topic 11: Physical and Earth Sciences</option>
+                     <option value="topic12">Topic 12: Cybersecurity</option>
                    </select>
 
                    <br><br>
                     <h4>Topic you wish to learn:</h4>
                   <select id="user_input2" name='user_input2'>
-                    <option value="topic1">Topic 1: Computer Programming</option>
-                    <option value="topic2">Topic 2: Web Services and Communication</option>
+                    <option value="topic1">Topic 1: Data Science</option>
+                    <option value="topic2">Topic 2: Software Design and User Experience</option>
                     <option value="topic3">Topic 3: Finance</option>
-                    <option value="topic4">Topic 4: Sales and Marketing</option>
-                    <option value="topic5">Topic 5: Business Leadership</option>
-                    <option value="topic6">Topic 6: Healthcare and Global Health</option>
-                    <option value="topic7">Topic 7: Data Science</option>
-                    <option value="topic8">Topic 8: Creative Arts and Sports</option>
-                    <option value="topic9">Topic 9: Social Sciences</option>
-                    <option value="topic10">Topic 10: Big Data</option>
-                    <option value="topic11">Topic 11: Professional Development</option>
-                    <option value="topic12">Topic 12: Law, Policy and Ethics</option>
-                    <option value="topic13">Topic 13: Life Sciences</option>
-                    <option value="topic14">Topic 14: Physical Sciences</option>
+                    <option value="topic4">Topic 4: Cloud Computing and Security</option>
+                    <option value="topic5">Topic 5: Medical Sciences</option>
+                    <option value="topic6">Topic 6: Healthcare and Public Health</option>
+                    <option value="topic7">Topic 7: Economics</option>
+                    <option value="topic8">Topic 8: Social Sciences</option>
+                    <option value="topic9">Topic 9: Business: Marketing and Innovation</option>
+                    <option value="topic10">Topic 10: Management, Leadership and Communication</option>
+                    <option value="topic11">Topic 11: Physical and Earth Sciences</option>
+                    <option value="topic12">Topic 12: Cybersecurity</option>
                    </select>
                    <br><br>
 
                    <h4>Importance of topic similarity:   <span id="demo1"></span></h4>
-                   <input type="range" min="0" max="10" value="10" class="slider" id="csim" name="csim">
+                   <input type="range" min="1" max="10" value="10" class="slider" id="csim" name="csim">
                    <h4>Importance of course rating:   <span id="demo2"></span></h4>
-                   <input type="range" min="0" max="10" value="3" class="slider" id="cstars" name="cstars">
+                   <input type="range" min="1" max="10" value="3" class="slider" id="cstars" name="cstars">
                    <h4>Importance of course popularity:   <span id="demo3"></span></h4>
-                   <input type="range" min="0" max="10" value="2" class="slider" id="cenr" name="cenr">
+                   <input type="range" min="1" max="10" value="2" class="slider" id="cenr" name="cenr">
                    <h4>Importance of saving time (shorter course length):   <span id="demo4"></span></h4>
-                   <input type="range" min="0" max="10" value="0" class="slider" id="chours" name="chours">
+                   <input type="range" min="1" max="10" value="1" class="slider" id="chours" name="chours">
                   <br><br>
              </form>
              <br>

@@ -42,8 +42,8 @@ d3.csv('../../static/edges_output.csv', function(myedges) {
       .selectAll(".lines")
     .data(myedges)
     .enter().append("line")
-     .attr("x1", function (d) { return wmax/2 + d.x1*wmax/squish - 150; })
-     .attr("x2", function (d) { return wmax/2 + d.x2*wmax/squish - 150; })
+     .attr("x1", function (d) { return wmax/2 + d.x1*wmax/squish - 100; })
+     .attr("x2", function (d) { return wmax/2 + d.x2*wmax/squish - 100; })
      .attr("y1", function (d) { return hmax/2 + d.y1*hmax/squish + 80; })
      .attr("y2", function (d) { return hmax/2 + d.y2*hmax/squish + 80; })
      .style("stroke", function(d) { return d.color; })
@@ -53,8 +53,8 @@ d3.csv('../../static/edges_output.csv', function(myedges) {
       .attr("class", "mylines")
        .selectAll(".lines")
      .data(myedges).enter().append("line")
-      .attr("x1", function (d) { return wmax/2 + d.x1*wmax/squish - 150; })
-      .attr("x2", function (d) { return wmax/2 + d.x2*wmax/squish - 150; })
+      .attr("x1", function (d) { return wmax/2 + d.x1*wmax/squish - 100; })
+      .attr("x2", function (d) { return wmax/2 + d.x2*wmax/squish - 100; })
       .attr("y1", function (d) { return hmax/2 + d.y1*hmax/squish + 80; })
       .attr("y2", function (d) { return hmax/2 + d.y2*hmax/squish + 80; })
       .attr("marker-end", "url(#triangle)")
@@ -72,7 +72,7 @@ d3.csv("../../static/nodes_output.csv", function(mynodes) {
 
    function color(mynodes) { return mynodes.strength; }
    var crange = d3.extent(mynodes, function(d) { return +d.strength; });
-   var crange = [1, 14]
+   var crange = [1, 12]
    var colorScale = d3.scaleSequential(d3.interpolateGnBu).domain([crange[0], crange[1]]);
    // Plasma, Inferno, Magma, Viridis, YlOrRd
 
@@ -97,7 +97,7 @@ d3.csv("../../static/nodes_output.csv", function(mynodes) {
        .enter().append("circle")
       .attr("class", "dot")
       .attr("r", function(d) { return radiusScale(radius(d)); })
-      .attr("cx", function (d) { return wmax/2 + d.x*wmax/squish - 150; })
+      .attr("cx", function (d) { return wmax/2 + d.x*wmax/squish - 100; })
       .attr("cy", function (d) { return hmax/2 + d.y*hmax/squish + 80; })
       .style("fill", function(d) { return colorScale(color(d)+1); })
       .style("opacity",.9)

@@ -27,8 +27,8 @@ d3.csv('../../static/edges_orig_plot.csv', function(myedges) {
      .attr("class", "mylines")
       .selectAll(".lines")
     .data(myedges).enter().append("line")
-     .attr("x1", function (d) { return wmax/2 + d.x1*wmax/squish - 150; })
-     .attr("x2", function (d) { return wmax/2 + d.x2*wmax/squish - 150; })
+     .attr("x1", function (d) { return wmax/2 + d.x1*wmax/squish - 100; })
+     .attr("x2", function (d) { return wmax/2 + d.x2*wmax/squish - 100; })
      .attr("y1", function (d) { return hmax/2 + d.y1*hmax/squish + 80; })
      .attr("y2", function (d) { return hmax/2 + d.y2*hmax/squish + 80; })
      .style("stroke", "#111111")
@@ -46,7 +46,7 @@ d3.csv("../../static/nodes_orig_plot.csv", function(mynodes) {
 
    function color(mynodes) { return mynodes.strength; }
    var crange = d3.extent(mynodes, function(d) {return +d.strength;});
-   var crange = [1, 14]
+   var crange = [1, 12]
    var colorScale = d3.scaleSequential(d3.interpolateGnBu).domain([crange[0], crange[1]]);
    // Plasma, Inferno, Magma, Viridis, YlOrRd
 
@@ -75,7 +75,7 @@ d3.csv("../../static/nodes_orig_plot.csv", function(mynodes) {
        .enter().append("circle")
       .attr("class", "dot")
       .attr("r", radius)
-      .attr("cx", function (d) { return wmax/2 + d.x*wmax/squish - 150; })
+      .attr("cx", function (d) { return wmax/2 + d.x*wmax/squish - 100; })
       .attr("cy", function (d) { return hmax/2 + d.y*hmax/squish + 80; })
       .style("fill", function(d) { return colorScale(color(d)+1); })
       .style("stroke",'#111111')
@@ -148,7 +148,7 @@ d3.csv("../../static/nodes_orig_plot.csv", function(mynodes) {
         return d3.range(start, stop+delta, delta).slice(0, nsteps)
       }
 
-      var pct = linspace(0, 100, 14).map(function(d) {
+      var pct = linspace(0, 100, 12).map(function(d) {
           return Math.round(d);
       });
 

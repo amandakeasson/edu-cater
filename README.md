@@ -31,7 +31,7 @@ Next, a bag-of-words corpus was generated, and a dictionary of unique terms was 
 
 #### 2) Topic modeling
 
-Topic modeling was then performed using Latent Dirichlet Allocation (LDA) in Python. Fourteen topics were defined, and were labelled manually based on the top words that were associated with each topic.
+Topic modeling was then performed using Latent Dirichlet Allocation (LDA) in Python. Twelve topics were defined, and were labelled manually based on the top words that were associated with each topic.
 
 Topics were then visualized using `pyLDAvis` (shown below). The user can hover over a topic, and see the top 30 terms that are associated with that topic. The sizes of the circles reflect the marginal topic distribution.
 
@@ -43,7 +43,7 @@ A network of courses was created. Each course is represented as a node in the ne
 
 <img src="notebooks/figures/coursera_lda_network.png"></img>
 
-A separate graph was created for visualization purposes. This graph was thresholded and binarized to show the top 2.5% of connections. Courses that were connected to fewer than 15 courses were then discarded. The largest connected component of this resulting graph is what is visualized on the edu-cater website.
+A separate graph was created for visualization purposes. This graph was thresholded and binarized to show the top 2.5% of connections. Courses with a node strength less than 5 were then discarded. The largest connected component of this resulting graph is what is visualized on the edu-cater website.
 
 <img src="notebooks/figures/coursera_lda_network_thresh.png"></img>
 
