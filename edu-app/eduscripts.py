@@ -213,7 +213,7 @@ def get_graph_d3(old1, new1, csim, cstars, cenr, chours):
 
     # shortest path
     shortpath = shortest_path(Gdir, old1, new1, weight='weighted_cost')
-    print(shortpath)
+    print('shortpath:', shortpath)
     mytuples = []
     mytuples_directed = []
     for i in range(len(shortpath)-1):
