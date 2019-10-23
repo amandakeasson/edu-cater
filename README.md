@@ -33,7 +33,7 @@ Next, a bag-of-words corpus was generated, and a dictionary of unique terms was 
 
 Topic modeling was then performed using Latent Dirichlet Allocation (LDA) in Python. Twelve topics were defined, and were labelled manually based on the top words that were associated with each topic.
 
-Topics were then visualized using `pyLDAvis` (shown below). The user can hover over a topic, and see the top 30 terms that are associated with that topic. The sizes of the circles reflect the marginal topic distribution.
+Topics were then visualized using `pyLDAvis` (shown below). The user can hover over a topic, and see the top 20 terms that are associated with that topic. The sizes of the circles reflect the marginal topic distribution.
 
 <img src="notebooks/figures/pyldavis_example.png"></img>
 
